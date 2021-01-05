@@ -99,6 +99,11 @@ def result(request):
     print(request.session.__dict__)
     print(request.session.keys())
     if 'user_name' in request.session.keys():
-        return render(request, 'main/result.html')
+        content = {}
+        content['grade_calculate_dic'] = request.session['grade_calculate_dic']
+        content['email_domain_dic'] = request.session['email_domain_dic']
+        del request.session['grade_calculate_dic']
+        del request.session['email_domain_dic']
+        return render(request, 'main/result.html', content)
     else:
         return redirect('main_signin')
