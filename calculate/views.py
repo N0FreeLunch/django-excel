@@ -39,24 +39,24 @@ def calculate(request):
         grade_list = list(grade_calculate_dic.keys())
         grade_list.sort()
 
-    for key in grade_list:
-        print("# grade : ", key)
-        print("min : ", grade_calculate_dic[key]['min'], end="")
-        print("/ max :", grade_calculate_dic[key]['max'], end="")
-        print("/ avg : ", grade_calculate_dic[key]['avg'], end="\n\n")
+    # for key in grade_list:
+    #     print("# grade : ", key)
+    #     print("min : ", grade_calculate_dic[key]['min'], end="")
+    #     print("/ max :", grade_calculate_dic[key]['max'], end="")
+    #     print("/ avg : ", grade_calculate_dic[key]['avg'], end="\n\n")
 
-        email_domain_dic = {}
-        for i in range(total_row_num):
-            data = df.loc[i]
-            email_domain = (data["email"].split("@"))[1]
-            if not email_domain in email_domain_dic.keys():
-                email_domain_dic[email_domain] = 1
-            else:
-                email_domain_dic[email_domain] += 1
-        print("## EMAIL 도메인별 사용 인원")
-        print(key)
-        for key in email_domain_dic.keys():
-            print("#", key, ":", email_domain_dic[key],"명")
+    email_domain_dic = {}
+    for i in range(total_row_num):
+        data = df.loc[i]
+        email_domain = (data["email"].split("@"))[1]
+        if not email_domain in email_domain_dic.keys():
+            email_domain_dic[email_domain] = 1
+        else:
+            email_domain_dic[email_domain] += 1
+    # print("## EMAIL 도메인별 사용 인원")
+    # print(key)
+    # for key in email_domain_dic.keys():
+    #     print("#", key, ":", email_domain_dic[key],"명")
 
     grade_calculate_dic_to_session = {}
 
@@ -68,5 +68,7 @@ def calculate(request):
         request.session['grade_calculate_dic'] = grade_calculate_dic_to_session
         request.session['email_domain_dic'] = email_domain_dic
     return redirect("/result")
+
+
 
     # return HttpResponse("calculate, calculate function")
