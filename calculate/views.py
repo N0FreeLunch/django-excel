@@ -9,17 +9,54 @@ from django.conf import settings
 def calculate(request):
     print("calculate")
     file = request.FILES['fileInput']
+    # print("file1")
+    # print(type(file))
+    # print(file)
+    # print(type(file.name))
+    # print(file.name)
 
     origin_file_name = file.name
     user_name = request.session['user_name']
     now_HMS = datetime.today().strftime('%H%M%S')
     file_upload_name = now_HMS+'_'+user_name+'_'+origin_file_name
     file.name = file_upload_name
-
-    document = Document(user_upload_file = file)
+    # print("file upload")
+    # print(file_upload_name)
+    # print("previous db insert")
+    # print(file)
+    # document = Document(user_upload_file = file)
+    document = Document.objects.create(user_upload_file=file)
+    # print("previous db insert")
+    # print(file)
+    # print("document")
+    # print(document)
+    # print(document.__dict__)
+    # print(document.user_upload_file.__dict__)
+    loaction = document.user_upload_file.name
+    # print("loaction")
+    # print(loaction)
     document.save()
+    # print("document2")
+    # print(document)
 
-    df = pd.read_excel(file, sheet_name='Sheet1', header=0)
+    # print("after db insert")
+    # print(file)
+    # print("file2")
+    # print(type(file))
+    # print(file.name)
+    # print(file)
+    # print(settings.MEDIA_ROOT)
+    # record = Document.objects.last()
+    # path = record.user_upload_file
+    # print("path")
+    # print(type(path))
+    # print(path.__dict__)
+    # print(type(path.name))
+    # path = settings.MEDIA_ROOT+"/"+path.name
+    path = settings.MEDIA_ROOT+"/"+loaction
+    # media\user_upload_files\210107\122651_jin_data.xlsx
+
+    df = pd.read_excel(path, sheet_name='Sheet1', header=0)
 
     # df = pd.read_excel(origin_file_name, sheet_name='Sheet1', header=0)
     print(df.head(5))
